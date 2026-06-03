@@ -6,7 +6,17 @@
 const navBurger = document.querySelector('.nav-burger');
 const mainNav = document.querySelector('.main-nav');
 if (navBurger && mainNav) {
-  navBurger.addEventListener('click', () => mainNav.classList.toggle('open'));
+  navBurger.addEventListener('click', () => {
+    const open = mainNav.classList.toggle('open');
+    navBurger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  // Close the menu after tapping a real navigation link
+  mainNav.querySelectorAll('a[href]').forEach(link => {
+    link.addEventListener('click', () => {
+      mainNav.classList.remove('open');
+      navBurger.setAttribute('aria-expanded', 'false');
+    });
+  });
 }
 
 // ---- Service-area tabs (homepage) ----

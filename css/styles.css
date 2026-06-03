@@ -348,6 +348,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.08; letter-spa
 .footer .contact-line { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: .88rem; }
 .footer .contact-line svg { width: 17px; height: 17px; stroke: var(--bright-500); flex: none; }
 .footer .phone { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; color: #fff; }
+.footer-disclaimer { border-top: 1px solid rgba(255,255,255,.1); padding: 22px 0 4px; font-size: .76rem; line-height: 1.65; color: rgba(255,255,255,.55); }
+.footer-disclaimer strong { color: rgba(255,255,255,.72); font-weight: 700; }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding: 22px 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: .82rem; }
 .footer-bottom .links { display: flex; gap: 22px; }
 .footer-bottom a:hover { color: var(--gold); }
@@ -497,8 +499,10 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.08; letter-spa
 .form label { display: block; font-weight: 700; font-size: .85rem; margin-bottom: 7px; color: var(--ink-2); }
 .form input, .form select, .form textarea {
   width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px;
-  font-family: var(--font-body); font-size: .95rem; background: var(--bg); transition: border-color .2s;
+  font-family: var(--font-body); font-size: 16px; background: var(--bg); transition: border-color .2s;
 }
+.form-consent { font-size: .8rem; color: var(--muted); margin-top: 14px; line-height: 1.5; }
+.form-consent a { color: var(--green-600); font-weight: 700; text-decoration: underline; }
 .form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: var(--bright-500); background: #fff; }
 .form textarea { resize: vertical; min-height: 120px; }
 .form .btn { width: 100%; justify-content: center; margin-top: 4px; }
@@ -548,4 +552,54 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.08; letter-spa
     border: none; padding: 4px 0 4px 14px; min-width: 0;
   }
   .form-row.two { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   CONVERSION + ACCESSIBILITY + MOBILE OPTIMIZATION
+   ========================================================= */
+
+/* ---- Skip link (keyboard / screen-reader users) ---- */
+.skip-link {
+  position: absolute; left: 8px; top: -60px; z-index: 400;
+  background: var(--green-700); color: #fff; padding: 10px 16px;
+  border-radius: 0 0 10px 10px; font-weight: 700; font-size: .9rem;
+  transition: top .2s ease;
+}
+.skip-link:focus { top: 0; outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* ---- Visible keyboard focus everywhere ---- */
+a:focus-visible, button:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 6px;
+}
+
+/* ---- Sticky mobile "Call Now" bar (primary click-to-call CTA) ---- */
+.mobile-call-bar { display: none; }
+@media (max-width: 760px) {
+  .mobile-call-bar {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 300;
+    background: var(--bright-500); color: #fff;
+    font-family: var(--font-body); font-weight: 800; font-size: 1.02rem;
+    text-align: center; letter-spacing: .01em;
+    padding: 15px 16px; padding-bottom: calc(15px + env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 22px rgba(16, 46, 28, .22);
+  }
+  .mobile-call-bar:active { background: var(--bright-600); }
+  .mobile-call-bar svg { width: 19px; height: 19px; stroke: #fff; flex: none; }
+  /* keep page content clear of the fixed bar */
+  body { padding-bottom: 66px; }
+}
+
+/* ---- Larger tap targets on touch screens (Google mobile-friendly) ---- */
+@media (max-width: 760px) {
+  .main-nav.open > ul > li > a,
+  .main-nav.open .dropdown a { padding-top: 12px; padding-bottom: 12px; }
+  .footer ul a, .footer-bottom a { display: inline-block; padding: 4px 0; }
+}
+
+/* ---- Respect reduced motion for hover lifts too ---- */
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+  .btn:hover, .card:hover, .testi-card:hover { transform: none; }
 }
